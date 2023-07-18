@@ -4,12 +4,16 @@
 #define IR_RECEIVE_PIN 2
 #define IR_BUTTON_PLUS 21
 #define IR_BUTTON_MINUS 7
+#define IR_EQ 9
+#define IR_PREV 68
+#define IR_NEXT 64
 
 #define MATRIX_PIN 8
 #define LED_COUNT 16
 
 Adafruit_NeoPixel matrix = Adafruit_NeoPixel(LED_COUNT, MATRIX_PIN, NEO_GRB + NEO_KHZ800);
 
+int currentState = 0; // 0 - off; 1 - disko; 2 - white;
 
 void setup(){
   Serial.begin(9600);
@@ -19,33 +23,36 @@ void setup(){
 }
 
 void loop(){
-   if (IrReceiver.decode()) {
+  if (IrReceiver.decode()) {
       IrReceiver.resume(); // Enable receiving of the next value
       int command = IrReceiver.decodedIRData.command;
       Serial.println(command);
       switch (command) {
-        case IR_BUTTON_PLUS: {
-          colorWipe(matrix.Color(255, 255, 120), 50);
+        case IR_EQ: {
+          currentState = 2;
           break;
         }
-        case IR_BUTTON_MINUS: {
-          crossBlink(matrix.Color(255, 0, 0), 50);
+        case IR_NEXT: {
+          currentState = 0;
+          break;
+        }
+        case IR_PREV: {
+          currentState = 1;
           break;
         }
       }
-  }
-}
+      switch (currentState) {
+        case 2:
+          colorWipe(matrix.Color(random(0,255), random(0,255), random(0,255)), 100);
+          break;
+        case 0:
+          colorWipe(matrix.Color(0, 0, 0), 0);
+          break;
+        case 1:
+          colorWipe(matrix.Color(255, 255, 255), 0);
+          break;
+      }
 
-void crossBlink(uint32_t c, uint8_t wait) {
-  for (uint16_t i = 0; i < matrix.numPixels(); i++) {
-    if (i % 5 == 0 || i % 3 == 0) { 
-      matrix.setPixelColor(i, c);
-      //delay(wait);
-    }
-    else {
-      matrix.setPixelColor(i, matrix.Color(0, 0, 0));
-    }
-    matrix.show();
   }
 }
 
@@ -54,6 +61,5 @@ void colorWipe(uint32_t c, uint8_t wait) {
     matrix.setPixelColor(i, c);
     matrix.show();
   }
-  //delay(wait);
+  delay(wait);
 }
-
