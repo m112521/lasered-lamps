@@ -4,6 +4,10 @@ Final result:
 
 ![DSC_3049](https://user-images.githubusercontent.com/85460283/211320454-70270c07-8974-4b4f-82f4-dac9daec8b97.jpg)
 
+Electronics:
+
+![shema](https://github.com/m112521/lasered-lamps/assets/85460283/5ea6700b-452e-4581-97cd-920c1e8b8069)
+
 
 Sim:
 
