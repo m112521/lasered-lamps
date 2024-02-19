@@ -1,0 +1,16 @@
+#include <IRremote.hpp>
+#define IR_RECEIVE_PIN 2
+
+void setup(){
+  Serial.begin(9600);
+  Serial.println("Start");
+  IrReceiver.begin(IR_RECEIVE_PIN);
+}
+
+void loop(){
+   if (IrReceiver.decode()) {
+      IrReceiver.resume(); // Enable receiving of the next value
+      //Serial.println(IrReceiver.decodedIRData.decodedRawData, HEX);
+      Serial.println(IrReceiver.decodedIRData.command);
+  }
+}
