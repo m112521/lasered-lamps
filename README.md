@@ -6,11 +6,4 @@ Final result:
 
 Electronics:
 
-![shema](https://github.com/m112521/lasered-lamps/assets/85460283/5ea6700b-452e-4581-97cd-920c1e8b8069)
-
-
-Sim:
-
-![shadow_lamp](https://user-images.githubusercontent.com/85460283/211321571-0569e3d7-f52c-48b3-bccf-c379019466f9.gif)
-![DSC_3170](https://user-images.githubusercontent.com/85460283/211322218-f1d6db84-a29b-48e0-8ec5-5399cd830a45.jpg)
-![DSC_3030](https://user-images.githubusercontent.com/85460283/211322235-43d4d556-1057-42cd-8bf0-236dff378968.jpg)
+![esp8266](schema-esp8266.png)
