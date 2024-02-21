@@ -9,3 +9,10 @@ Instructions:
 
 
 ![esp32](schema-esp32.png)
+
+
+Add boards:
+
+```bash
+https://espressif.github.io/arduino-esp32/package_esp32_index.json
+```
