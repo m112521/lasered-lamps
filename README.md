@@ -7,3 +7,10 @@ Final result:
 Electronics:
 
 ![esp8266](schema-esp8266.png)
+
+
+Add boards:
+
+```bash
+https://arduino.esp8266.com/stable/package_esp8266com_index.json
+```
