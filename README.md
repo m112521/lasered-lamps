@@ -9,7 +9,7 @@ Electronics:
 ![esp8266](schema-esp8266.png)
 
 
-Add boards:
+Add boards (choose NODE MCU 1.0):
 
 ```bash
 https://arduino.esp8266.com/stable/package_esp8266com_index.json
