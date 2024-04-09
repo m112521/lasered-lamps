@@ -17,15 +17,25 @@ JSONVar readings;
 unsigned long lastTime = 0;
 unsigned long timerDelay = 3000;
 
+int brightness = 0;
+const int ledPin = 5; 
+const int freq = 5000;
+const int ledChannel = 0;
+const int resolution = 8;
+
+const int ptrPin = 34; 
+
 const char index_html[] PROGMEM = R"rawliteral(
 <!DOCTYPE HTML><html>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <p><span id="s1"></span></p>
 <p><span id="s2"></span></p>
 <p><span id="s3"></span></p>
+<input id="slider" type="range" min="0" max="255"/>
 <button id="yo">pressme</button>
 <script>
 let gateway = `ws://${window.location.hostname}/ws`;
+let slider = document.querySelector("#slider");
 let websocket;
 window.addEventListener('load', onload);
 
@@ -40,7 +50,7 @@ function initButtons() {
 
 function forwardMove(){
   //websocket.send('f');
-  websocket.send(JSON.stringify({rgb: 255}));
+  websocket.send(JSON.stringify({rgb: parseInt(slider.value)}));
 }
 
 function getReadings(){
@@ -79,7 +89,9 @@ function onMessage(event) {
 
 
 String getSensorReadings(){
-  readings["s1"] = String(random(300));
+  int val = analogRead(ptrPin);
+  Serial.println(val);
+  readings["s1"] = String(val);
   readings["s2"] =  String(random(100));
   readings["s3"] = String(random(200));
   String jsonString = JSON.stringify(readings);
@@ -107,8 +119,10 @@ void handleWebSocketMessage(void *arg, uint8_t *data, size_t len) {
     
     JSONVar myObject = JSON.parse((const char*)data);
     if (myObject.hasOwnProperty("rgb")) {
+      brightness = (int)myObject["rgb"];
       Serial.print("myObject[\"rgb\"] = ");
-      Serial.println((int) myObject["rgb"]);
+      Serial.println(brightness);
+      ledcWrite(ledChannel, brightness);
     }
 
     String sensorReadings = getSensorReadings();
@@ -140,6 +154,9 @@ void initWebSocket() {
 }
 
 void setup() {
+  ledcSetup(ledChannel, freq, resolution);
+  ledcAttachPin(ledPin, ledChannel);
+
   Serial.begin(115200);
   initWiFi();
   initWebSocket();
